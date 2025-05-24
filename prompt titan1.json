@@ -1,0 +1,14 @@
+{
+    "textToImageParams": {
+        "text": "change the hair color of this woman"
+    },
+    "taskType": "TEXT_IMAGE",
+    "imageGenerationConfig": {
+        "cfgScale": 8,
+        "seed": 42,
+        "quality": "standard",
+        "width": 1024,
+        "height": 1024,
+        "numberOfImages": 1
+    }
+}
