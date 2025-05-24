@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://redstonerti.github.io/deloitte-stylist",
   "dependencies": {
+    "@nextui-org/react": "^2.6.11",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -38,5 +39,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }
