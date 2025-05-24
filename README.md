@@ -1,2 +1,0 @@
-# makeathon
-MAKEATHON LETS GO
