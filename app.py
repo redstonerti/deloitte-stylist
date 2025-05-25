@@ -4,13 +4,15 @@ import os
 from typing import List, Dict, Optional
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
-
+import base64
+from PIL import Image
+import io
 
 class AzureGPT4MiniClient:
     def __init__(self, endpoint: str, api_key: str, deployment_name: str = "gpt-4o-mini"):
         """
         Initialize Azure OpenAI client
-
+        
         Args:
             endpoint: Your Azure OpenAI endpoint (e.g., "https://your-resource.openai.azure.com/")
             api_key: Your Azure OpenAI API key
@@ -20,17 +22,17 @@ class AzureGPT4MiniClient:
         self.api_key = api_key
         self.deployment_name = deployment_name
         self.api_version = "2023-12-01-preview"  # Updated API version
-
+        
         # Construct the full URL
         self.url = f"{self.endpoint}/openai/deployments/{self.deployment_name}/chat/completions"
-
+        
         # Set up headers
         self.headers = {
             "Content-Type": "application/json",
             "api-key": self.api_key
         }
-
-    def chat_completion(self,
+    
+    def chat_completion(self, 
                        messages: List[Dict[str, str]], 
                        temperature: float = 0.7,
                        max_tokens: int = 1000,
@@ -38,18 +40,18 @@ class AzureGPT4MiniClient:
                        stream: bool = False) -> Dict:
         """
         Send a chat completion request to Azure OpenAI
-
+        
         Args:
             messages: List of message dictionaries with 'role' and 'content'
             temperature: Controls randomness (0.0 to 2.0)
             max_tokens: Maximum tokens in response
             top_p: Controls diversity via nucleus sampling
             stream: Whether to stream the response
-
+            
         Returns:
             Response dictionary from Azure OpenAI
         """
-
+        
         payload = {
             "messages": messages,
             "temperature": temperature,
@@ -87,6 +89,35 @@ class AzureGPT4MiniClient:
             print(f"JSON Decode Error: {e}")
             print(f"Response content: {response.text}")
             raise
+
+def download_and_convert_image_to_base64_jpeg(url):
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        img = Image.open(io.BytesIO(response.content)).convert("RGB")
+        buffer = io.BytesIO()
+        img.save(buffer, format="JPEG")
+        base64_str = base64.b64encode(buffer.getvalue()).decode("utf-8")
+        return base64_str
+    except Exception as e:
+        print(f"Failed to process image from {url}: {e}")
+        return "base64 string"
+
+def save_outfit_to_input_format_json(outfit):
+    data = {
+        "top_image": download_and_convert_image_to_base64_jpeg(outfit.get("top", {}).get("image", "")),
+        "top_description": outfit.get("top", {}).get("title", ""),
+        "bottom_image": download_and_convert_image_to_base64_jpeg(outfit.get("bottom", {}).get("image", "")),
+        "bottom_description": outfit.get("bottom", {}).get("title", ""),
+        "shoes_image": download_and_convert_image_to_base64_jpeg(outfit.get("shoes", {}).get("image", "")),
+        "shoes_description": outfit.get("shoes", {}).get("title", ""),
+        "accessory_image": download_and_convert_image_to_base64_jpeg(outfit.get("accessories", {}).get("image", "")),
+        "accessory_description": outfit.get("accessories", {}).get("title", ""),
+        "user image": "base64 string"  # You can update this if you have a user image
+    }
+    with open("input_format.json", "w") as f:
+        json.dump(data, f, indent=4)
+
 
 # Configuration
 API_KEY = "bc70w1vQSgfOTeeFK8PruLKvsKHgJPLZJ8kESM16IMl6HM6avt4DJQQJ99BEACHYHv6XJ3w3AAAAACOGMCJJ"
@@ -408,6 +439,25 @@ def index():
 
     return render_template('main.html', outfit=outfit)
 
+# ...existing code...
+
+def save_outfit_to_input_format_json(outfit, user_image_base64=None):
+    data = {
+        "top_image": download_and_convert_image_to_base64_jpeg(outfit.get("top", {}).get("image", "")),
+        "top_description": outfit.get("top", {}).get("title", ""),
+        "bottom_image": download_and_convert_image_to_base64_jpeg(outfit.get("bottom", {}).get("image", "")),
+        "bottom_description": outfit.get("bottom", {}).get("title", ""),
+        "shoes_image": download_and_convert_image_to_base64_jpeg(outfit.get("shoes", {}).get("image", "")),
+        "shoes_description": outfit.get("shoes", {}).get("title", ""),
+        "accessory_image": download_and_convert_image_to_base64_jpeg(outfit.get("accessories", {}).get("image", "")),
+        "accessory_description": outfit.get("accessories", {}).get("title", ""),
+        "user image": user_image_base64 if user_image_base64 else "base64 string"
+    }
+    with open("input_format.json", "w") as f:
+        json.dump(data, f, indent=4)
+
+# ...existing code...
+
 @app.route('/api/outfit', methods=['POST'])
 def get_outfit_json():
     """
@@ -424,6 +474,7 @@ def get_outfit_json():
         occasion = data.get('occasion')
         season = data.get('season')
         gender = data.get('gender')
+        user_image_base64 = data.get('user_image')  # <-- Get the user image from the request
 
         # Validate required fields
         if not all([style, mood, occasion, season, gender]):
@@ -444,11 +495,17 @@ def get_outfit_json():
             print(f"Found {len(results)} results for {item}")
 
         print(f"Final outfit: {outfit}")
+
+        # Save images and descriptions to input_format.json, including user image
+        save_outfit_to_input_format_json(outfit, user_image_base64)
+
         return jsonify(outfit)
-        
+            
     except Exception as e:
         print(f"Error in get_outfit_json: {e}")
         return jsonify({'error': 'Internal server error'}), 500
+
+# ...existing code...
 
 if __name__ == "__main__":
     app.run(debug=True)

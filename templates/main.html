@@ -450,6 +450,7 @@
         height: 200px;
     }
 }
+
     </style>
 </head>
 <body>
@@ -475,6 +476,10 @@
                             <option value="minimalist">Minimalist</option>
                             <option value="edgy">Edgy</option>
                         </select>
+                        <div class="form-group">
+                            <label for="userImage">Upload Your Photo</label>
+                            <input type="file" id="userImage" name="userImage" accept="image/*" style="padding: 10px; border-radius: 10px; border: 2px solid #e1e5e9;">
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -547,6 +552,31 @@
     </div>
 
     <script>
+    let userImageBase64 = "";
+
+document.getElementById('userImage').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Convert to JPEG if not already
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            // Create a canvas to convert to JPEG
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+
+            // Convert to JPEG base64
+            userImageBase64 = canvas.toDataURL('image/jpeg').split(',')[1]; // Remove the data:image/jpeg;base64, prefix
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+});
  // Fashion Finder API Integration Script
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -568,7 +598,8 @@ document.addEventListener('DOMContentLoaded', function() {
             mood: formData.get('mood'),
             occasion: formData.get('occasion'),
             season: formData.get('season'),
-            gender: formData.get('gender')
+            gender: formData.get('gender'),
+            user_image: userImageBase64
         };
 
         // Validate form
