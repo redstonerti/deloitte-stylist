@@ -7,6 +7,7 @@ from flask_cors import CORS
 import base64
 from PIL import Image
 import io
+from flask import send_from_directory
 
 class AzureGPT4MiniClient:
     def __init__(self, endpoint: str, api_key: str, deployment_name: str = "gpt-4o-mini"):
@@ -505,6 +506,11 @@ def get_outfit_json():
         print(f"Error in get_outfit_json: {e}")
         return jsonify({'error': 'Internal server error'}), 500
 
+
+
+@app.route('/virtual-try-on/<filename>')
+def virtual_try_on_image(filename):
+    return send_from_directory('virtual-try-on', filename)
 # ...existing code...
 
 if __name__ == "__main__":

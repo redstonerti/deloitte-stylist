@@ -2,7 +2,7 @@ from utils import *
 from titan import *
 from nova import *
 
-def main():
+def try_on_func():
     input_format = read_json('input_format.json')
     print("input format: ")
     print(input_format)
@@ -23,5 +23,4 @@ def main():
             print("Titan prompt is too long: "  + str(len(titan_prompt)) + " characters. Retrying...")
     titan_function(titan_prompt)
 
-if __name__ == "__main__":
-    main()
+

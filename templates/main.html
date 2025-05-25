@@ -451,6 +451,19 @@
     }
 }
 
+.virtual-tryon-img {
+    width: 100%;
+    max-width: 1000px;
+    max-height: 1000px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 15px auto;
+    background: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
     </style>
 </head>
 <body>
@@ -658,27 +671,45 @@ document.addEventListener('DOMContentLoaded', function() {
         searchBtn.textContent = 'Find My Outfit';
     }
 
-    function displayOutfit(outfit) {
-        if (!outfit || Object.keys(outfit).length === 0) {
-            showError('No outfit recommendations found. Please try different preferences.');
-            return;
-        }
-
-        const outfitHTML = `
-            <div class="outfit-results">
-                <h2>Your Perfect Outfit</h2>
-                <div class="outfit-grid">
-                    ${createItemCard('Top', outfit.top)}
-                    ${createItemCard('Bottom', outfit.bottom)}
-                    ${createItemCard('Shoes', outfit.shoes)}
-                    ${createItemCard('Accessories', outfit.accessories)}
-                </div>
-            </div>
-        `;
-
-        outfitContainer.innerHTML = outfitHTML;
-        outfitContainer.style.display = 'block';
+function displayOutfit(outfit) {
+    if (!outfit || Object.keys(outfit).length === 0) {
+        showError('No outfit recommendations found. Please try different preferences.');
+        return;
     }
+
+    // Virtual Try-On Card (always first)
+const virtualTryOnCard = `
+    <div class="item-card">
+        <h3>Virtual Try-On</h3>
+        <div class="item-content">
+            <img src="/virtual-try-on/output_image.jpeg?ts=${Date.now()}" 
+                 alt="Virtual Try-On Result"
+                 class="virtual-tryon-img"
+                 onerror="this.src='https://via.placeholder.com/200x200?text=No+Image'">
+            <div class="item-info">
+                <h4>Your Look</h4>
+                <p class="source">AI Virtual Try-On</p>
+            </div>
+        </div>
+    </div>
+`;
+
+    const outfitHTML = `
+        <div class="outfit-results">
+            <h2>Your Perfect Outfit</h2>
+            <div class="outfit-grid">
+                ${virtualTryOnCard}
+                ${createItemCard('Top', outfit.top)}
+                ${createItemCard('Bottom', outfit.bottom)}
+                ${createItemCard('Shoes', outfit.shoes)}
+                ${createItemCard('Accessories', outfit.accessories)}
+            </div>
+        </div>
+    `;
+
+    outfitContainer.innerHTML = outfitHTML;
+    outfitContainer.style.display = 'block';
+}   
 
     function createItemCard(category, item) {
         if (!item) {
