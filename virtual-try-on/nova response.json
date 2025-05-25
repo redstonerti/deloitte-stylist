@@ -1,0 +1,20 @@
+{
+    "output": {
+        "message": {
+            "content": [
+                {
+                    "text": "The main clothing item in the description is a pair of white New Balance sneakers, specifically the New Balance 550 model. Here\u2019s a detailed description of the sneakers:\n\n- **Brand**: New Balance\n- **Model**: 550\n- **Color**: Predominantly white with gray accents and blue detailing\n- **Upper**: The upper part of the sneaker is made of a combination of materials, primarily mesh for breathability and synthetic overlays for durability. The mesh is white with a subtle pattern, and the synthetic overlays are gray. There are blue accents on the tongue and heel tab.\n- **Logo**: The iconic \"N\" logo is prominently displayed on the side of the sneaker in a navy blue color.\n- **Toe Box**: The toe box is rounded and features perforations for added breathability.\n- **Lacing System**: The sneakers have a traditional lacing system with white laces that are secured by white eyelets.\n- **Midsole**: The midsole is made of ABZORB cushioning, providing comfort and support. It is white with gray detailing.\n- **Outsole**: The outsole is made of durable rubber and is designed for traction. It is primarily white with blue accents.\n- **Heel**: The heel features a navy blue tab with the text \"550\" in white, along with additional branding elements.\n- **Stitching**: The sneakers have visible stitching along the seams, adding to the overall aesthetic.\n\nThese sneakers are designed for both style and performance, making them suitable for casual wear as well as light athletic activities."
+                }
+            ],
+            "role": "assistant"
+        }
+    },
+    "stopReason": "end_turn",
+    "usage": {
+        "inputTokens": 1739,
+        "outputTokens": 325,
+        "totalTokens": 2064,
+        "cacheReadInputTokenCount": 0,
+        "cacheWriteInputTokenCount": 0
+    }
+}

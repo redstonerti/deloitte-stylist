@@ -1,0 +1,11 @@
+{
+    "taskType": "INPAINTING",
+    "inPaintingParams": {
+        "text": "Make the person wear this clothing item: The main clothing item in the description is a pair of white New Balance sneakers, specifically the New Balance 550 model. Here\u2019s a detailed description of the sneakers:\n\n- **Brand**: New Balance\n- **Model**: 550\n- **Color**: Predominantly white with gray accents and blue detailing",
+        "maskPrompt": "person"
+    },
+    "imageGenerationConfig": {
+        "numberOfImages": 1,
+        "cfgScale": 8.0
+    }
+}

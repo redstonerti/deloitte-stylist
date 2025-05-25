@@ -1,0 +1,16 @@
+{
+    "text_prompts": [
+        {
+            "text": "Change the shirt color of this person to pink",
+            "weight": 1.0
+        }
+    ],
+    "init_image": "<BASE64_INIT_IMAGE>",
+    "mask_image": "INIT_IMAGE_ALPHA",
+    "init_image_mode": "IMAGE_STRENGTH",
+    "image_strength": 0.8,
+    "cfg_scale": 8.0,
+    "sampler": "K_EULER_ANCESTRAL",
+    "steps": 30,
+    "samples": 1
+}
