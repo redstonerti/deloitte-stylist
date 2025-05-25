@@ -1,0 +1,11 @@
+{
+    "top_image": "base64 string",
+    "top_description": "Green tshirt",
+    "bottom_image": "base64 string",
+    "bottom_description": "Yellow pants",
+    "shoes_image": "base64 string",
+    "shoes_description": "Blue shoes",
+    "accessory_image": "base64 string",
+    "accessory_description": "Green backpack",
+    "user image": "base64 string"
+}

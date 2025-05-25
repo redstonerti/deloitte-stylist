@@ -10,7 +10,7 @@ class AzureGPT4MiniClient:
     def __init__(self, endpoint: str, api_key: str, deployment_name: str = "gpt-4o-mini"):
         """
         Initialize Azure OpenAI client
-        
+
         Args:
             endpoint: Your Azure OpenAI endpoint (e.g., "https://your-resource.openai.azure.com/")
             api_key: Your Azure OpenAI API key
@@ -20,17 +20,17 @@ class AzureGPT4MiniClient:
         self.api_key = api_key
         self.deployment_name = deployment_name
         self.api_version = "2023-12-01-preview"  # Updated API version
-        
+
         # Construct the full URL
         self.url = f"{self.endpoint}/openai/deployments/{self.deployment_name}/chat/completions"
-        
+
         # Set up headers
         self.headers = {
             "Content-Type": "application/json",
             "api-key": self.api_key
         }
-    
-    def chat_completion(self, 
+
+    def chat_completion(self,
                        messages: List[Dict[str, str]], 
                        temperature: float = 0.7,
                        max_tokens: int = 1000,
@@ -38,18 +38,18 @@ class AzureGPT4MiniClient:
                        stream: bool = False) -> Dict:
         """
         Send a chat completion request to Azure OpenAI
-        
+
         Args:
             messages: List of message dictionaries with 'role' and 'content'
             temperature: Controls randomness (0.0 to 2.0)
             max_tokens: Maximum tokens in response
             top_p: Controls diversity via nucleus sampling
             stream: Whether to stream the response
-            
+
         Returns:
             Response dictionary from Azure OpenAI
         """
-        
+
         payload = {
             "messages": messages,
             "temperature": temperature,

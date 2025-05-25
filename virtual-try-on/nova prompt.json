@@ -1,0 +1,28 @@
+{
+    "system": [
+        {
+            "text": "You are a helpful assistant."
+        }
+    ],
+    "messages": [
+        {
+            "role": "user",
+            "content": [
+                {
+                    "text": "I want you to make a very detailed description of the main clothing / fashion item that is present in this description. It should be small enough that it can fit into 80 characters, but detailed enough that another AI can reacreate the item accurately in a different context. DO NOT start like this: The main clothing item in the description is a pair of yellow pants. Here is a detailed description:\n\n- **Color**: The pants are a solid... I want you to start with the description right away. Start with The pants are solid... Here is a short description of what you are looking at: "
+                },
+                {
+                    "image": {
+                        "format": "jpeg",
+                        "source": {}
+                    }
+                }
+            ]
+        }
+    ],
+    "inferenceConfig": {
+        "temperature": 0.7,
+        "topP": 0.9,
+        "maxTokens": 1024
+    }
+}
